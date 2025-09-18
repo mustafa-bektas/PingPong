@@ -15,12 +15,29 @@ public class Paddle : MonoBehaviour
         maxTargetingBias = 0.75f;
 
     float extents, targetingBias;
+    static readonly int
+        timeOfLastHitId = Shader.PropertyToID("_TimeOfLastHit"),
+        faceColorId = Shader.PropertyToID("_FaceColor"),
+        emissionColorId = Shader.PropertyToID("_EmissionColor");
 
-	void Awake ()
-	{
-		SetScore(0);
+	Material goalMaterial, paddleMaterial, scoreMaterial;
+
+    [SerializeField]
+	MeshRenderer goalRenderer;
+
+	[SerializeField, ColorUsage(true, true)]
+	Color goalColor = Color.white;
+
+
+    void Awake()
+    {
+        goalMaterial = goalRenderer.material;
+        goalMaterial.SetColor(emissionColorId, goalColor);
+        paddleMaterial = GetComponent<MeshRenderer>().material;
+        scoreMaterial = scoreText.fontMaterial;
+        SetScore(0);
 	}
-    
+
     void SetExtents(float newExtents)
     {
         extents = newExtents;
@@ -69,13 +86,20 @@ public class Paddle : MonoBehaviour
         hitFactor =
             (ballX - transform.localPosition.x) /
             (extents + ballExtents);
-        return -1f <= hitFactor && hitFactor <= 1f;
+            
+        bool success = -1f <= hitFactor && hitFactor <= 1f;
+		if (success)
+		{
+			paddleMaterial.SetFloat(timeOfLastHitId, Time.time);
+		}
+		return success;
     }
 
 	void SetScore (int newScore, float pointsToWin = 1000f)
 	{
 		score = newScore;
 		scoreText.SetText("{0}", newScore);
+        scoreMaterial.SetColor(faceColorId, goalColor * (newScore / (3*pointsToWin)));
 		SetExtents(Mathf.Lerp(maxExtents, minExtents, newScore / (pointsToWin - 1f)));
 	}
 
@@ -87,6 +111,7 @@ public class Paddle : MonoBehaviour
 
 	public bool ScorePoint (int pointsToWin)
 	{
+        goalMaterial.SetFloat(timeOfLastHitId, Time.time);
 		SetScore(score + 1, pointsToWin);
 		return score >= pointsToWin;
 	}
