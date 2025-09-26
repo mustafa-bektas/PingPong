@@ -3,30 +3,30 @@ using TMPro;
 
 public class Paddle : MonoBehaviour
 {
-    [SerializeField] bool isAI;
+    [SerializeField] public bool isAI;
     [SerializeField] TextMeshPro scoreText;
-    int score;
+    public int score;
 
     [SerializeField, Min(0f)]
-    float
+    public float
         minExtents = 4f,
-		maxExtents = 4f,
+        maxExtents = 4f,
         speed = 10f,
         maxTargetingBias = 0.75f;
 
-    float extents, targetingBias;
-    static readonly int
+    public float extents, targetingBias;
+    public static readonly int
         timeOfLastHitId = Shader.PropertyToID("_TimeOfLastHit"),
         faceColorId = Shader.PropertyToID("_FaceColor"),
         emissionColorId = Shader.PropertyToID("_EmissionColor");
 
-	Material goalMaterial, paddleMaterial, scoreMaterial;
+    Material goalMaterial, paddleMaterial, scoreMaterial;
 
     [SerializeField]
-	MeshRenderer goalRenderer;
+    MeshRenderer goalRenderer;
 
-	[SerializeField, ColorUsage(true, true)]
-	Color goalColor = Color.white;
+    [SerializeField, ColorUsage(true, true)]
+    Color goalColor = Color.white;
 
 
     void Awake()
@@ -36,16 +36,16 @@ public class Paddle : MonoBehaviour
         paddleMaterial = GetComponent<MeshRenderer>().material;
         scoreMaterial = scoreText.fontMaterial;
         SetScore(0);
-	}
+    }
 
-    void SetExtents(float newExtents)
+    public void SetExtents(float newExtents)
     {
         extents = newExtents;
         Vector3 s = transform.localScale;
         s.x = 2f * newExtents;
         transform.localScale = s;
     }
-	
+
     public void Move(float target, float arenaExtents)
     {
         Vector3 p = transform.localPosition;
@@ -86,22 +86,22 @@ public class Paddle : MonoBehaviour
         hitFactor =
             (ballX - transform.localPosition.x) /
             (extents + ballExtents);
-            
+
         bool success = -1f <= hitFactor && hitFactor <= 1f;
-		if (success)
-		{
-			paddleMaterial.SetFloat(timeOfLastHitId, Time.time);
-		}
-		return success;
+        if (success)
+        {
+            paddleMaterial.SetFloat(timeOfLastHitId, Time.time);
+        }
+        return success;
     }
 
-	void SetScore (int newScore, float pointsToWin = 1000f)
-	{
-		score = newScore;
-		scoreText.SetText("{0}", newScore);
-        scoreMaterial.SetColor(faceColorId, goalColor * (newScore / (3*pointsToWin)));
-		SetExtents(Mathf.Lerp(maxExtents, minExtents, newScore / (pointsToWin - 1f)));
-	}
+    void SetScore(int newScore, float pointsToWin = 1000f)
+    {
+        score = newScore;
+        scoreText.SetText("{0}", newScore);
+        scoreMaterial.SetColor(faceColorId, goalColor * (newScore / (3 * pointsToWin)));
+        SetExtents(Mathf.Lerp(maxExtents, minExtents, newScore / (pointsToWin - 1f)));
+    }
 
     public void StartNewGame()
     {
@@ -109,13 +109,13 @@ public class Paddle : MonoBehaviour
         ChangeTargetingBias();
     }
 
-	public bool ScorePoint (int pointsToWin)
-	{
+    public bool ScorePoint(int pointsToWin)
+    {
         goalMaterial.SetFloat(timeOfLastHitId, Time.time);
-		SetScore(score + 1, pointsToWin);
-		return score >= pointsToWin;
-	}
+        SetScore(score + 1, pointsToWin);
+        return score >= pointsToWin;
+    }
 
-	void ChangeTargetingBias () =>
-		targetingBias = Random.Range(-maxTargetingBias, maxTargetingBias);
+    void ChangeTargetingBias() =>
+        targetingBias = Random.Range(-maxTargetingBias, maxTargetingBias);
 }

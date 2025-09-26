@@ -912,16 +912,46 @@ MonoBehaviour:
   maxStartXSpeed: 2
   constantYSpeed: 13
   extents: 0.5
-  bounceParticleSystem: {fileID: 859356742}
+  position: {x: 0, y: 0}
+  velocity: {x: 0, y: 0}
   startParticleSystem: {fileID: 692821045}
+  bounceParticleSystem: {fileID: 859356742}
   trailParticleSystem: {fileID: 411408635}
   bounceParticleEmission: 20
   startParticleEmission: 100
+  isMainBall: 1
 --- !u!4 &813363388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6725708110672789027, guid: 83b9c3636d7e65e49b93a55681fc8381, type: 3}
   m_PrefabInstance: {fileID: 8879313131055484914}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &813363389
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813363383}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,6 +1006,59 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 370275667005726188, guid: be6af863a2b3cdd429f08e0fa2dd6cdd, type: 3}
   m_PrefabInstance: {fileID: 5196457262415739875}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &866227765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 866227767}
+  - component: {fileID: 866227766}
+  m_Layer: 0
+  m_Name: PowerUpManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &866227766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866227765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de95448212c354c46a0e99548e58e8ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PowerUpManager
+  powerUpPrefab: {fileID: 2275058531904500782, guid: 2668b8fc02f563b46ab9a55853209e31, type: 3}
+  spawnInterval: 8
+  spawnAreaX: {x: -8, y: 8}
+  spawnAreaZ: {x: -8, y: 8}
+  spawnHeight: 0
+  speedBoostMultiplier: 1.5
+  paddleStretchMultiplier: 1.8
+  freezeSlowdown: 0.3
+  magnetStrength: 5
+--- !u!4 &866227767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866227765}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &869223651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,10 +1433,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Paddle
   isAI: 0
   scoreText: {fileID: 1876415111}
+  score: 0
   minExtents: 1
   maxExtents: 4
   speed: 10
   maxTargetingBias: 0.75
+  extents: 0
+  targetingBias: 0
   goalRenderer: {fileID: 941607769}
   goalColor: {r: 0, g: 45.254833, b: 0, a: 1}
 --- !u!1001 &1216431636
@@ -1367,6 +1453,10 @@ PrefabInstance:
     - target: {fileID: 7124274616139117693, guid: 1ef6054671d4d0544b2652b5718530c6, type: 3}
       propertyPath: m_Name
       value: BottomPaddle
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124274616139117693, guid: 1ef6054671d4d0544b2652b5718530c6, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7440597672787759704, guid: 1ef6054671d4d0544b2652b5718530c6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1633,10 +1723,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Paddle
   isAI: 1
   scoreText: {fileID: 1615066845}
+  score: 0
   minExtents: 3.5
   maxExtents: 4
   speed: 5
   maxTargetingBias: 0.75
+  extents: 0
+  targetingBias: 0
   goalRenderer: {fileID: 946830244}
   goalColor: {r: 45.254833, g: 0, b: 0, a: 1}
 --- !u!1001 &1807470915
@@ -2226,6 +2319,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4057439420743726824, guid: 83b9c3636d7e65e49b93a55681fc8381, type: 3}
       insertIndex: -1
       addedObject: {fileID: 813363384}
+    - targetCorrespondingSourceObject: {fileID: 4057439420743726824, guid: 83b9c3636d7e65e49b93a55681fc8381, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 813363389}
   m_SourcePrefab: {fileID: 100100000, guid: 83b9c3636d7e65e49b93a55681fc8381, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -2243,3 +2339,4 @@ SceneRoots:
   - {fileID: 5196457262415739875}
   - {fileID: 1949313251}
   - {fileID: 1392435050}
+  - {fileID: 866227767}

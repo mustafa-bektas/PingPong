@@ -5,7 +5,7 @@ public class Game : MonoBehaviour
 {
     [SerializeField] Ball ball;
     [SerializeField] Paddle bottomPaddle, topPaddle;
-    [SerializeField, Min(0f)] Vector2 arenaExtents = new Vector2(10f, 10f);
+    [SerializeField, Min(0f)] public Vector2 arenaExtents = new Vector2(10f, 10f);
     [SerializeField, Min(2)] int pointsToWin = 3;
 
     [SerializeField]
