@@ -63,9 +63,9 @@ public class PowerUp : MonoBehaviour
         if (mat.HasProperty("_BaseColor"))
             mat.SetColor("_BaseColor", powerUpColor);
         if (mat.HasProperty("_Color"))
-            mat.SetColor("_Color", powerUpColor * 2f); // Brighter for emission
+            mat.SetColor("_Color", powerUpColor * 5f); // Brighter for emission
         if (mat.HasProperty("_EmissionColor"))
-            mat.SetColor("_EmissionColor", powerUpColor * 1.5f);
+            mat.SetColor("_EmissionColor", powerUpColor * 15.5f);
     }
 
     Color GetPowerUpColor()
